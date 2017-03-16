@@ -1,5 +1,6 @@
 // app.js
 var angular = require('../utils/angular-1.2.32');
+var $ = require('../utils/jquery-1.8.3.js');
 require('../utils/angular-animate-1.2.32');
 require('../utils/angular-ui-router-0.2.13');
 require('./style.css');
@@ -53,9 +54,33 @@ angular.module('app', ['ngAnimate', 'ui.router'])
     // we will store all of our form data in this object
     $scope.formData = appInitData;
     
-    // function to process the form
+    /*// function to process the form
     $scope.processForm = function() {
         alert('awesome!');
+    };*/
+
+    $scope.processForm = function(){
+        $.ajax({
+            type: "post",
+            url: "index/save",
+            data: $scope.formData,
+            dataType: "json",
+            success: function(res){
+                console&&console.log("[index/user] res=",res);
+                if(res.code=="1"){
+                    alert("OK："+res.msg);
+                }else{
+                    alert("error："+res.msg);
+                }
+                
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+             console&&console.log(XMLHttpRequest.status);
+             console&&console.log(XMLHttpRequest.readyState);
+             console&&console.log(textStatus);
+             console&&console.log(errorThrown);
+            }
+        })
     };
     
 });
