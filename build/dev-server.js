@@ -60,7 +60,7 @@ for ( var pathName in routers ){
             res.send(data); 
             res.end(); 
         });
-    }else{
+    }else if(router.method == "get"){
         app.get(pathName, function (req, res) {
             //res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
             var pathname = url.parse(req.url).pathname;
@@ -72,6 +72,13 @@ for ( var pathName in routers ){
             //res.contentType('json');//返回的数据类型  
             res.send(data); 
             res.end();
+        });
+    }else if(router.method == "redirect"){
+        app.get(pathName, function (req, res) {
+            var pathname = url.parse(req.url).pathname;
+            console.log("pathname=",pathname);
+            console.log("redirect to =", routers[pathname].url);
+            res.redirect(routers[pathname].url);
         });
     }
 }
