@@ -1,0 +1,7 @@
+h1{
+	color: #3532DE;
+	background: linear-gradient(#D9AEFC,#E5C3FF);
+}
+.main{
+	display: flex;
+}
