@@ -48,7 +48,7 @@ pages.forEach((page) => {
 });
 
 //全局开启代码热替换
-config.plugins.push(new webpack.HotModuleReplacementPlugin());
+//config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 //获得对象类型方法
 function __typeof__(objClass)
