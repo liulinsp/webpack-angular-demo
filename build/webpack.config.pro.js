@@ -39,6 +39,7 @@ pages.forEach((page) => {
       const templatePlugin = new HtmlWebpackPlugin({
         filename: '../template/'+item,
         template: path.resolve(__dirname, '../src/'+page+'/template/'+item),
+        inject: false
     });
     config.plugins.push(templatePlugin);
     });

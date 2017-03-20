@@ -1,6 +1,6 @@
 // app.js
-var angular = require('../utils/angular-1.2.32');
-var $ = require('../utils/jquery-1.8.3.js');
+var angular = require('angular');
+var $ = require('jquery');
 require('../utils/angular-animate-1.2.32');
 require('../utils/angular-ui-router-0.2.13');
 require('./style.css');

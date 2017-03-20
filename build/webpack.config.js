@@ -35,7 +35,7 @@ var config = {
 	      }
 	    ]
 	},
-	
+	resolve: { alias: { jquery: "../utils/jquery-1.8.3.js", angular:"../utils/angular-1.2.32.js" } },
 	plugins:[
 		// 删除文件
 		new CleanWebpackPlugin(['target'], {
@@ -90,6 +90,7 @@ pages.forEach((page) => {
     	const templatePlugin = new HtmlWebpackPlugin({
 		    filename: '../template/'+item,
 		    template: path.resolve(__dirname, '../src/'+page+'/template/'+item),
+		    inject: false
 		});
 		config.plugins.push(templatePlugin);
     });

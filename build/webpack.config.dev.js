@@ -16,7 +16,6 @@ config.plugins = [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-
     //抽取公共模块
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons', // 这公共代码的 chunk 名为 'commons'
@@ -61,6 +60,7 @@ pages.forEach((page) => {
       const templatePlugin = new HtmlWebpackPlugin({
         filename: 'static/template/'+item,
         template: path.resolve(__dirname, '../src/'+page+'/template/'+item),
+        inject: false
       });
       config.plugins.push(templatePlugin);
     });

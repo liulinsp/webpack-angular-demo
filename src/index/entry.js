@@ -1,7 +1,7 @@
 require('./index.css');
 require('./btn.less');
-var angular = require('../utils/angular-1.2.32');
-var $ = require('../utils/jquery-1.8.3.js');
+var angular = require('angular');
+var $ = require('jquery');
 var mymath = require('../utils/math.js');
 
 var app = angular.module("app",[]);
