@@ -17,6 +17,7 @@
     "body-parser": "^1.17.1",
     "clean-webpack-plugin": "^0.1.15",
     "css-loader": "^0.26.2",
+    "del": "^2.2.2",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
     "gulp": "^3.9.1",
