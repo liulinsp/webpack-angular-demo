@@ -10,7 +10,7 @@ angular.module('app', ['ngAnimate', 'ui.router'])
 
 // configuring our routes 
 // =============================================================================
-.config(function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
     
     $stateProvider
     
@@ -44,12 +44,12 @@ angular.module('app', ['ngAnimate', 'ui.router'])
     // catch all route
     // send users to the form page 
     $urlRouterProvider.otherwise('/form/profile');
-})
+}])
 
 // our controller for the form
 // =============================================================================
 
-.controller('formController', function($scope) {
+.controller('formController', ['$scope',function($scope) {
     
     // we will store all of our form data in this object
     $scope.formData = appInitData;
@@ -83,4 +83,4 @@ angular.module('app', ['ngAnimate', 'ui.router'])
         })
     };
     
-});
+}]);

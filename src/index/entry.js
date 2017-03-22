@@ -5,7 +5,7 @@ var $ = require('jquery');
 var mymath = require('../utils/math.js');
 
 var app = angular.module("app",[]);
-app.controller("ctrl",function($scope,$location){
+app.controller("ctrl",["$scope","$location",function($scope,$location){
   $scope.team = appInitData.team;
   $scope.getUser = function(){
   	$.ajax({
@@ -25,4 +25,4 @@ app.controller("ctrl",function($scope,$location){
 		}
   	})
   }
-});
+}]);
