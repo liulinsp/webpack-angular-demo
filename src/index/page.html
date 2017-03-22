@@ -6,9 +6,13 @@
 	<meta charset="utf-8"></meta>
 </head>
 <body>
-	<a href="/tabs">GO</a>
+	<a href="tabs">GO</a>
 	<h2>{{team}}</h2>
+	<div class="warn">请保管好密码！</div>
+	<div class="right">邮箱已验证！</div>
+	<div class="line"></div>
 	<button class="btn-normal" ng-click="getUser()">Click me</button>
+	<img src="<%= htmlWebpackPlugin.options.ctx %>static/imgs/index.png">
 	<div ng-show="user">
 	  <p>姓名：{{user.name}}</p>
 	  <p>电话：{{user.mobile}}</p>

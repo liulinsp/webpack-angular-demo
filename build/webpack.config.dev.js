@@ -19,11 +19,11 @@ config.plugins = [
     //抽取公共模块
     new webpack.optimize.CommonsChunkPlugin({
       name: 'commons', // 这公共代码的 chunk 名为 'commons'
-      filename: 'commons.js', // 生成后的文件名
+      filename: 'static/js/commons.js?[hash]', // 生成后的文件名
       //minChunks: 4 // 设定要有 4 个 chunk（即4个页面）加载的 js 模块才会被纳入公共代码
     }),
     // 提取css文件
-	  new ExtractTextPlugin("static/css/[name].[hash].css"),
+	  new ExtractTextPlugin("static/css/[name].css?[hash]"),
     // 自动添加样式前缀
     new webpack.LoaderOptionsPlugin({
      options: {
@@ -35,7 +35,7 @@ config.plugins = [
   	    })
 	     ]
      }
-    }),   
+    }),
 ];
     
 //导出html
@@ -48,7 +48,8 @@ pages.forEach((page) => {
     filename: page+'.html',
     template: path.resolve(__dirname, '../src/'+page+'/page.html'),
     templateJspTop: '',
-    templateInitScript: '<script type="text/javascript">var appInitData = '+initDataStr+';</script>',
+    ctx: config.output.publicPath,
+    templateInitScript: '<script type="text/javascript">var appInitData = '+initDataStr+'; var ctx = "'+config.output.publicPath+'";</script>',
     chunks: [page, 'commons'],
     inject: true
   });

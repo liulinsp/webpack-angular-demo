@@ -1,0 +1,50 @@
+h1{
+	color: #3532DE;
+	background: linear-gradient(#D9AEFC,#E5C3FF);
+}
+.main{
+	display: flex;
+}
+
+.warn{
+	position: relative;
+	height: 40px;
+	padding-left: 25px;
+	line-height: 40px;
+}
+.warn::before{
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  background-image: url('../img/warning.png');
+  /*background-position: 0px -31px;*/
+  width:20px;
+  height:20px;
+}
+
+.right{
+	position: relative;
+	height: 40px;
+	padding-left: 25px;
+	line-height: 40px;
+}
+.right::before{
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  background-image: url('../spriteImgs/index.png');
+  background-position: 0px -6px;
+  width:20px;
+  height:20px;
+}
+
+.line{
+	margin: 20px 10px;
+	height: 1px;
+	background: url('../spriteImgs/index.png') repeat-x;
+	background-position: 0px 0px;
+}
+
+

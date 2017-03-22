@@ -12,9 +12,9 @@ var config = {
 		
 	},
 	output: {
-		path: path.resolve(__dirname, '../target/static/js'),
-		publicPath: 'static/js',
-		filename: '[name].[hash].js',
+		path: path.resolve(__dirname, '../target'),
+		publicPath: '/target/',
+		filename: 'static/js/[name].js?[hash]',
 	},
     module: {
 	    loaders: [
@@ -26,13 +26,19 @@ var config = {
 	        })
 	      },
 	      {
-	        test: /\.(png|jpg|gif|svg)$/,
+	        test: /\.(png|jpg|jpeg|gif|svg)$/,
 	        loader: 'url-loader',
-	        options: {
-	          limit: 10000,
-	          name: '[name].[ext]?[hash]'
+	        include: /(img)/,
+	        options: {limit: 10240}
+	      },
+	      {
+		    test: /\.(png|jpg|jpeg|gif)$/,
+		    loader: 'file-loader',
+		    include: /(spriteImgs)/,
+		    options: {
+	          name: 'static/imgs/[name].[ext]?[hash]',
 	        }
-	      }
+		  }
 	    ]
 	},
 	resolve: { alias: { jquery: "../utils/jquery-1.8.3.js", angular:"../utils/angular-1.2.32.js" } },
@@ -46,12 +52,12 @@ var config = {
 		//抽取公共模块
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'commons', // 这公共代码的 chunk 名为 'commons'
- 			filename: 'commons.js', // 生成后的文件名
+ 			filename: 'static/js/commons.js?[hash]', // 生成后的文件名
  			//minChunks: 4 // 设定要有 4 个 chunk（即4个页面）加载的 js 模块才会被纳入公共代码
 		}),
 
 		// 提取css文件
-	    new ExtractTextPlugin("../css/[name].[hash].css"),
+	    new ExtractTextPlugin("static/css/[name].css?[hash]"),
 
 	    // 自动添加样式前缀
 	    new webpack.LoaderOptionsPlugin({
@@ -75,10 +81,11 @@ pages.forEach((page) => {
   var initDataStr = fs.readFileSync(path.resolve(__dirname, '../data/'+page+'/init.json'));
   if(!initDataStr){ initDataStr ="{}"; }
   const htmlPlugin = new HtmlWebpackPlugin({
-    filename: '../../'+page+'.html',
+    filename: './'+page+'.html',
     template: path.resolve(__dirname, '../src/'+page+'/page.html'),
+    ctx: config.output.publicPath,
     templateJspTop: '',
-    templateInitScript: '<script type="text/javascript">var appInitData = '+initDataStr+';</script>',
+    templateInitScript: '<script type="text/javascript">var appInitData = '+initDataStr+';var ctx = "'+config.output.publicPath+'";</script>',
     chunks: [page, 'commons'],
     inject: true
   });
@@ -88,7 +95,7 @@ pages.forEach((page) => {
   	var templateFiles = fs.readdirSync(path.resolve(__dirname, '../src/'+page+'/template'));
   	templateFiles.forEach(function(item) { 
     	const templatePlugin = new HtmlWebpackPlugin({
-		    filename: '../template/'+item,
+		    filename: 'static/template/'+item,
 		    template: path.resolve(__dirname, '../src/'+page+'/template/'+item),
 		    inject: false
 		});

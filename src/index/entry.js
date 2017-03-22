@@ -1,5 +1,5 @@
-require('./index.css');
-require('./btn.less');
+require('./css/index.css');
+require('./css/btn.less');
 var angular = require('angular');
 var $ = require('jquery');
 var mymath = require('../utils/math.js');
