@@ -18,6 +18,7 @@ var config = {
 	},
     module: {
 	    loaders: [
+	      //样式文件加载
 	      {
 	        test: /\.(css|less)$/,
 	        loader: ExtractTextPlugin.extract({
@@ -25,12 +26,7 @@ var config = {
 	          use: "css-loader!less-loader!postcss-loader"
 	        })
 	      },
-	      {
-	        test: /\.(png|jpg|jpeg|gif|svg)$/,
-	        loader: 'url-loader',
-	        include: /(img)/,
-	        options: {limit: 10240}
-	      },
+	      //大图片加载
 	      {
 		    test: /\.(png|jpg|jpeg|gif)$/,
 		    loader: 'file-loader',
@@ -38,7 +34,14 @@ var config = {
 		    options: {
 	          name: 'static/imgs/[name].[ext]?[hash]',
 	        }
-		  }
+		  },
+		  //小图片加载，直接转换为base64
+	      {
+	        test: /\.(png|jpg|jpeg|gif|svg)$/,
+	        loader: 'url-loader',
+	        include: /(img)/,
+	        options: {limit: 10240}
+	      }
 	    ]
 	},
 	resolve: { alias: { jquery: "../utils/jquery-1.8.3.js", angular:"../utils/angular-1.2.32.js" } },
@@ -91,6 +94,7 @@ pages.forEach((page) => {
   });
   config.plugins.push(htmlPlugin);
 
+  //导出模板
   try{
   	var templateFiles = fs.readdirSync(path.resolve(__dirname, '../src/'+page+'/template'));
   	templateFiles.forEach(function(item) { 

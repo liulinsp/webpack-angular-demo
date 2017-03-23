@@ -12,33 +12,22 @@ var config = require('./webpack.config');
 
 config.output.publicPath = '/';
 
-config.plugins = [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    //抽取公共模块
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'commons', // 这公共代码的 chunk 名为 'commons'
-      filename: 'static/js/commons.js?[hash]', // 生成后的文件名
-      //minChunks: 4 // 设定要有 4 个 chunk（即4个页面）加载的 js 模块才会被纳入公共代码
-    }),
-    // 提取css文件
-	  new ExtractTextPlugin("static/css/[name].css?[hash]"),
-    // 自动添加样式前缀
-    new webpack.LoaderOptionsPlugin({
-     options: {
-       postcss:[
-  	    autoprefixer({
-  	      browsers: ['last 5 versions', 'ie >= 9', 'ie_mob >= 10',
-  	        'ff >= 30', 'chrome >= 34', 'safari >= 6', 'opera >= 12.1',
-  	        'ios >= 8', 'android >= 4.4', 'bb >= 10', 'and_uc >= 9.9']
-  	    })
-	     ]
-     }
-    }),
-];
-    
-//导出html
+var newPlugins = [];
+//newPlugins.push(new webpack.optimize.OccurrenceOrderPlugin());
+//增加热部署插件
+newPlugins.push(new webpack.HotModuleReplacementPlugin());
+//增加警告提示插件
+newPlugins.push(new webpack.NoEmitOnErrorsPlugin());
+
+// 删除html导出的插件和清空target目录插件
+config.plugins.forEach((plu) => {
+  if( __typeof__(plu) != "HtmlWebpackPlugin" && __typeof__(plu) != "CleanWebpackPlugin"){
+    newPlugins.push(plu);
+  }
+});
+config.plugins = newPlugins;
+   
+// 重新设置html导出插件
 pages.forEach((page) => {
   var initDataStr = fs.readFileSync(path.resolve(__dirname, '../data/'+page+'/init.json'));
   if(!initDataStr){
@@ -55,6 +44,7 @@ pages.forEach((page) => {
   });
   config.plugins.push(htmlPlugin);
 
+  //模板导出
   try{
     var templateFiles = fs.readdirSync(path.resolve(__dirname, '../src/'+page+'/template'));
     templateFiles.forEach(function(item) { 
@@ -77,5 +67,17 @@ Object.keys(config.entry).forEach(function (name, i) {
     config.entry[name] = extras.concat(config.entry[name])
 });
 
+//获得对象类型方法
+function __typeof__(objClass)
+ {
+     if ( objClass && objClass.constructor )
+     {
+         var strFun = objClass.constructor.toString();
+         var className = strFun.substr(0, strFun.indexOf('('));
+         className = className.replace('function', '');
+         return className.replace(/(^\s*)|(\s*$)/ig, '');  
+     }
+     return typeof(objClass);
+ }
 
 module.exports = config;

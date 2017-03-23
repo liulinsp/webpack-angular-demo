@@ -10,30 +10,16 @@ var config = require('./webpack.config');
 
 config.output.publicPath = '${ctx}/';
 
-config.module.loaders=[
-        {
-          test: /\.(css|less)$/,
-          loader: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: "css-loader!less-loader!postcss-loader",
-            publicPath: ''
-          })
-        },
-        {
-          test: /\.(png|jpg|jpeg|gif|svg)$/,
-          loader: 'url-loader',
-          include: /(img)/,
-          options: {limit: 10240}
-        },
-        {
-          test: /\.(png|jpg|jpeg|gif)$/,
-          loader: 'file-loader',
-          include: /(spriteImgs)/,
-          options: {
-              name: '../imgs/[name].[ext]?[hash]',
-            }
-        }
-      ];
+// loaders调整
+config.module.loaders[0]={
+  test: /\.(css|less)$/,
+  loader: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: "css-loader!less-loader!postcss-loader",
+    publicPath: ''
+  })
+};
+config.module.loaders[1].options.name = '../imgs/[name].[ext]?[hash]';
 
 // 删除html导出的插件
 var newPlugins = [];
